@@ -21,6 +21,11 @@ const config = {
       colors: {
         rabble: "#08F7AF",
         back: "#E7E7E7",
+        morph: "#14A800",
+        kakarot: "#003D29",
+        base: "#0052FF",
+        black: "#000000",
+        cream: "#F7F5E3",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

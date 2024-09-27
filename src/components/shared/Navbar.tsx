@@ -10,15 +10,16 @@ const Navbar = () => {
   console.log(pathname);
 
   return (
-    <nav className="mx-3 my-4">
-      <div className="flex items-end">
-        <Image src="/rabble.svg" alt="Rabble" width={82.8} height={21.6} />
-        <div className="ml-auto flex items-center ">
-          <ConnectButton accountStatus={"avatar"} chainStatus={"icon"} />
-        </div>
-      </div>
-      <hr className="bg-black my-2" />
-      <div className="flex space-x-4 ">
+    <nav className=" text-center my-6">
+      <Image
+        src="/gasyard.svg"
+        width={235}
+        height={50}
+        alt="logo"
+        className="block mx-auto"
+      />
+
+      {/* <div className="flex space-x-4 ">
         <Link
           href="/"
           className={`${
@@ -37,7 +38,7 @@ const Navbar = () => {
         >
           Contract
         </Link>
-      </div>
+      </div> */}
     </nav>
   );
 };

@@ -83,3 +83,7 @@ h5,
 h6 {
   font-family: sans-serif;
 }
+
+body {
+  background: rgba(247, 245, 227, 1);
+}

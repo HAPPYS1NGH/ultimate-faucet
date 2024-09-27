@@ -5,10 +5,13 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets"
 import {
+  mainnet,
   arbitrum,
+  base,
+  kakarotSepolia,
+  baseSepolia,
   arbitrumSepolia,
   localhost,
-  mainnet,
 } from "wagmi/chains"
 
 const { wallets } = getDefaultWallets()

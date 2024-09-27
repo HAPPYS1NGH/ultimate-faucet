@@ -38,8 +38,14 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="bg-background">
       <Navbar />
+      <h1 className="text-center text-[#0622EB] font-bold">Testnet Faucet</h1>
+
       <main className=" mx-3 my-4 ">{children}</main>
       <Toaster richColors />
+      <footer className="text-center">
+        Made with ❤️ by Gasyard and{" "}
+        <a href="https://x.com/happys1ngh">HappySingh</a>
+      </footer>
     </main>
   );
 }
