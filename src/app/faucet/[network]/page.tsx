@@ -6,9 +6,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { canDripTokens, dripTokensToAddress } from "@/helpers/contract";
+import { useTelegramUsername } from "@/hooks/useTelegramUsername";
+
 function FaucetPage() {
   const { network } = useParams();
   const router = useRouter();
+  const telegramUsername = useTelegramUsername();
 
   // State for wallet address and funds status
   const [walletAddress, setWalletAddress] = useState("");
@@ -61,7 +65,7 @@ function FaucetPage() {
       />
 
       {/* Center Greeting Text */}
-      <h1 className="text-2xl font-bold mb-4">Hey @ Happy!</h1>
+      <h1 className="text-2xl font-bold mb-4">Hey @{telegramUsername}!</h1>
 
       {/* Claim Information */}
       <p className="text-xl mb-8">
