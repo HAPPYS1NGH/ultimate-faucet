@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Be_Vietnam_Pro } from "next/font/google";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
-import Web3Provider from "@/providers/Web3Provider";
+// import Web3Provider from "@/providers/Web3Provider";
 import Layout from "@/providers/Layout";
 import { TelegramProvider } from "@/providers/TelegramProvider";
 
@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${beVietnamPro.variable}`}>
       <body className={beVietnamPro.className}>
-        <Web3Provider>
-          <TelegramProvider>
-            <Layout>{children}</Layout>
-          </TelegramProvider>
-        </Web3Provider>
+        {/* <Web3Provider> */}
+        <TelegramProvider>
+          <Layout>{children}</Layout>
+        </TelegramProvider>
+        {/* </Web3Provider> */}
       </body>
     </html>
   );
