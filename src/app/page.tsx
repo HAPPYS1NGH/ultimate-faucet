@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between">
       <div className="text-center flex flex-col items-center">
-        <div className=" mt-10 grid grid-cols-2 gap-2">
+        <div className=" mt-10 grid grid-cols-2 gap-2 w-full">
           {networks.map((network) => (
             <NetworkCard key={network} name={network} />
           ))}

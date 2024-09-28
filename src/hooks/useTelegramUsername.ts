@@ -3,5 +3,8 @@ import { initInitData } from '@telegram-apps/sdk';
 
 export function useTelegramUsername() {
     const initData = initInitData();
-    return initData?.user?.username;
+    if (!initData) {
+        return "";
+    }
+    return initData?.user?.username || "";
 }

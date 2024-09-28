@@ -62,7 +62,6 @@ export const dripTokensToAddress = async (
     try {
         const contract = config[network];
         const client: any = getChainClient(network, true);
-
         const usernameEncode = new TextEncoder().encode(username);
         const usernameBytes = `0x${usernameEncode.toString().replace(/,/g, "").replace(/ /g, "").replace(/0x/g, "")}`;
 
@@ -73,7 +72,13 @@ export const dripTokensToAddress = async (
             args: [to, usernameBytes, amount.toString()],
         });
 
+        console.log("Simulated request: ", request);
+        console.log("Simulated response: ", response);
+
+
         const hash = await client.writeContract(request);
+        console.log("Transaction hash: ", hash);
+
         return hash;
     } catch (error: any) {
         return error?.metaMessages ? error?.metaMessages[0] : "Error in dripTokensToAddress: ";
