@@ -79,17 +79,17 @@ export const dripTokensToAddress = async (
         const hash = await client.writeContract(request);
         console.log("Transaction hash: ", hash);
 
-        return hash;
+        return { success: true, hash };
     } catch (error: any) {
-        return error?.metaMessages ? error?.metaMessages[0] : "Error in dripTokensToAddress: ";
+        return { success: false, hash: error?.metaMessages ? error?.metaMessages[0] : "Error in dripTokensToAddress: " };
     }
 };
 
-export const canDripTokens = async (
+export const cannotDripTokens = async (
     address: string,
     username: string,
     network: NetworkName
-): Promise<true | string> => {
+): Promise<false | string> => {
     const usernameEncode = new TextEncoder().encode(username);
     const usernameBytes = `0x${usernameEncode.toString().replace(/,/g, "").replace(/ /g, "").replace(/0x/g, "")}`;
 
@@ -98,11 +98,14 @@ export const canDripTokens = async (
         // for (const net of networks) {
         const net = network;
         const hasAddressReceived = await isTokenDrippedToAddressInLast24Hours(address, net);
+        console.log(hasAddressReceived + "hasAddressReceived");
         if (hasAddressReceived) {
             return "Tokens have already been dripped to this address within the last 24 hours.";
         }
 
         const hasUsernameReceived = await isTokenDrippedToUsernameInLast24Hours(usernameBytes, net);
+        console.log(hasUsernameReceived + "hasUsernameReceived");
+
         if (hasUsernameReceived) {
             return "Tokens have already been dripped to this username within the last 24 hours.";
         }
@@ -114,7 +117,7 @@ export const canDripTokens = async (
             return "The address balance is above the threshold.";
             //     }
         }
-        return true;
+        return false;
     } catch (error) {
         return "An unknown error occurred.";
     }
