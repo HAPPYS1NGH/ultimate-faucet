@@ -42,7 +42,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <main className=" mx-3 my-4 ">{children}</main>
       <Toaster richColors />
-      <footer className="text-center text-sm mt-8 text-[#000000b6]">
+      <footer className="text-center text-sm mt-8 mb-4 text-[#000000b6]">
         Made with ❤️ by{" "}
         <a
           className=" cursor-pointer font-bold underline "
