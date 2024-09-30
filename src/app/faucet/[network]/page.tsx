@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"; // Import useState and useEffect fo
 import { useParams, useRouter } from "next/navigation";
 import { networkData, NetworkName } from "@/constants/faucet";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cannotDripTokens, dripTokensToAddress } from "@/helpers/contract";
@@ -23,6 +24,8 @@ function FaucetPage() {
   const [fundsDripped, setFundsDripped] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isNetworkValid, setIsNetworkValid] = useState(true); // New state for network validation
+  const [transactionHash, setTransactionHash] = useState<string | null>(null); // State for transaction hash
+
   console.log(errorMessage + "error");
 
   // Ensure that the network exists in networkData and is a valid NetworkName
@@ -96,15 +99,20 @@ function FaucetPage() {
       const dripResult = await dripTokensToAddress(
         walletAddress,
         telegramUsername,
-        BigInt(100000000000000000), // Adjust the amount as per your contract
+        BigInt(
+          1000000000000000000 *
+            parseFloat(
+              networkInfo?.dripAmount ? networkInfo?.dripAmount : "0.5"
+            )
+        ), // Adjust the amount as per your contract
         network as NetworkName
       );
 
       if (dripResult.success) {
         setFundsDripped(true);
         setErrorMessage(""); // Clear any errors if successful
-        // Assuming `dripResult` contains the transaction hash
-        setErrorMessage(`Transaction successful! Hash: ${dripResult.hash}`);
+        // Store transaction hash for display
+        setTransactionHash(dripResult.hash);
       }
       if (!dripResult.success) {
         setErrorMessage(dripResult.hash);
@@ -127,7 +135,7 @@ function FaucetPage() {
 
   return (
     <div
-      className={`mt-10 text-black flex flex-col items-center justify-center bg-[${networkInfo?.color}] mb-40`}
+      className={`mt-10 text-black flex flex-col items-center justify-center bg-[${networkInfo?.color}] mb-40 `}
     >
       <button
         onClick={() => router.back()}
@@ -142,37 +150,56 @@ function FaucetPage() {
         alt={`${networkInfo?.name} Logo`}
         className="mb-8"
       />
-      <h1 className="text-2xl font-bold mb-4">Hey @{telegramUsername}!</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Hey <span className="text-[#E33D26]">@{telegramUsername}</span>
+      </h1>
       <p className="text-xl mb-8">
         {fundsDripped
           ? "Your Funds are on the way!"
-          : "You can claim your tokens below:"}
+          : `Claim your ${networkInfo?.dripAmount} ${networkInfo?.token} on ${networkInfo?.name}:`}
       </p>
       <Input
         type="text"
         placeholder="Place your EVM address"
         value={walletAddress}
         onChange={handleInputChange} // Handle input change
-        className="px-4 py-4 rounded-lg text-center mb-4 bg-white"
+        className="px-4 py-6 rounded-lg text-center mb-4 bg-white"
         disabled={isLoading || fundsDripped} // Disable while loading or after successful claim
       />
-      {/* Error Message */}
+
+      {fundsDripped ? (
+        <Button className={`font-semibold w-full py-6 ${networkInfo?.color} `}>
+          <Link href="/">Go Back</Link>
+        </Button>
+      ) : (
+        <Button
+          className={`font-semibold w-full py-6 ${networkInfo?.color} `}
+          onClick={handleButtonClick}
+          disabled={
+            isLoading || fundsDripped || !isValidEvmAddress(walletAddress)
+          } // Disable under these conditions
+        >
+          {isLoading ? "Processing..." : `Get your ${networkInfo?.name} token`}
+        </Button>
+      )}
       {errorMessage && (
-        <p className={`text-${fundsDripped ? "green" : "red"}-500 mb-4`}>
-          {errorMessage}
-        </p>
+        <p className={`text-red-500 mt-4 text-sm`}>{errorMessage}</p>
       )}
 
-      {/* Button for dripping tokens */}
-      <Button
-        className={`font-semibold w-full ${networkInfo?.color} `}
-        onClick={handleButtonClick}
-        disabled={
-          isLoading || fundsDripped || !isValidEvmAddress(walletAddress)
-        } // Disable under these conditions
-      >
-        {isLoading ? "Processing..." : `Get your ${networkInfo?.name} token`}
-      </Button>
+      {/* Transaction Hash Link */}
+      {transactionHash && (
+        <Button
+          className={`font-semibold w-full py-6 bg-white text-black hover:bg-gray-200 mt-3 border-black border-2`}
+        >
+          <Link
+            href={`${networkInfo?.explorer}tx/${transactionHash}`}
+            className="flex justify-center align-middle gap-2 "
+          >
+            View Transaction
+            <Image src="/link.png" alt="link" width={20} height={20} />
+          </Link>
+        </Button>
+      )}
     </div>
   );
 }
