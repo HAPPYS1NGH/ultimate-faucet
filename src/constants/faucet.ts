@@ -23,7 +23,7 @@ export const networkData: Record<NetworkName, { name: string; color: string; des
         name: "Base",
         color: "bg-base",
         description: "Base is for everyone.",
-        dripAmount: "0.05",
+        dripAmount: "0.025",
         token: "ETH",
         explorer: "https://sepolia.basescan.org/"
     },
