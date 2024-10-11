@@ -1,8 +1,16 @@
-export type NetworkName = "morph" | "kakarot" | "base" | "movement";
+export type NetworkName = "morph" | "kakarot" | "base" | "movement" | "arbitrum" | "mode";
 
-export const networks: NetworkName[] = ["morph", "kakarot", "base", "movement"];
+export const networks: NetworkName[] = ["arbitrum", "base", "kakarot", "mode", "movement", "morph"];
 
 export const networkData: Record<NetworkName, { name: string; color: string; description: string, dripAmount: string, token: string, explorer: string }> = {
+    arbitrum: {
+        name: "Arbitrum",
+        color: "bg-arbitrum",
+        description: "Arbitrum is Stylish.",
+        dripAmount: "0.01",
+        token: "ETH",
+        explorer: "https://sepolia.arbiscan.io/"
+    },
     morph: {
         name: "Morph",
         color: "bg-morph",
@@ -23,7 +31,7 @@ export const networkData: Record<NetworkName, { name: string; color: string; des
         name: "Base",
         color: "bg-base",
         description: "Base is for everyone.",
-        dripAmount: "0.025",
+        dripAmount: "0.01",
         token: "ETH",
         explorer: "https://sepolia.basescan.org/"
     },
@@ -34,5 +42,14 @@ export const networkData: Record<NetworkName, { name: string; color: string; des
         dripAmount: "1",
         token: "MOVE",
         explorer: "https://explorer.devnet.imola.movementlabs.xyz/#/"
+    },
+
+    mode: {
+        name: "MODE",
+        color: "bg-mode",
+        description: "Mode is for Consumer.",
+        dripAmount: "0.01",
+        token: "ETH",
+        explorer: "https://sepolia.explorer.mode.network/"
     },
 };

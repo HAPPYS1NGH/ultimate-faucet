@@ -26,6 +26,8 @@ const config = {
         base: "#0052FF",
         black: "#000000",
         cream: "#F7F5E3",
+        arbitrum: "#12AAff",
+        mode: "#d6ff00",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
