@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cannotDripTokens, dripTokensToAddress } from "@/helpers/contract";
 import { useTelegramUsername } from "@/hooks/useTelegramUsername";
+import { useAccount } from "wagmi";
 
 // Regex for EVM address validation
 const isValidEvmAddress = (address: string) =>
@@ -17,7 +18,7 @@ function FaucetPage() {
   const { network } = useParams();
   const router = useRouter();
   const telegramUsername = useTelegramUsername();
-
+  const { address } = useAccount();
   // State for wallet address, loading status, and feedback messages
   const [walletAddress, setWalletAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +37,12 @@ function FaucetPage() {
       setIsNetworkValid(true); // Set network as valid
     }
   }, [network]);
+
+  useEffect(() => {
+    if (address) {
+      setWalletAddress(address);
+    }
+  }, [address]);
 
   const networkInfo = isNetworkValid
     ? networkData[network as NetworkName]
@@ -137,12 +144,12 @@ function FaucetPage() {
     <div
       className={`mt-10 text-black flex flex-col items-center justify-center bg-[${networkInfo?.color}] mb-40 `}
     >
-      <button
+      {/* <button
         onClick={() => router.back()}
         className="absolute top-4 left-4 bg-white text-black px-4 py-2 rounded-full hover:bg-gray-200"
       >
         ← Back
-      </button>
+      </button> */}
       <Image
         src={`/${network}2.svg`}
         width={85}

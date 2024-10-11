@@ -38,19 +38,10 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="bg-background">
       <Navbar />
-      <h1 className="text-center text-[#0622EB] font-bold">Testnet Faucet</h1>
-
       <main className=" mx-3 my-4 ">{children}</main>
       <Toaster richColors />
       <footer className="text-center text-sm mt-8 mb-4 text-[#000000b6]">
         Made with ❤️ by{" "}
-        <a
-          className=" cursor-pointer font-bold underline "
-          href="https://x.com/gasyardfi"
-        >
-          Gasyard
-        </a>{" "}
-        and{" "}
         <a
           className=" cursor-pointer font-bold underline"
           href="https://x.com/happys1ngh"

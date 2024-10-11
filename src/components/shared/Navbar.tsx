@@ -10,35 +10,14 @@ const Navbar = () => {
   console.log(pathname);
 
   return (
-    <nav className=" text-center my-6">
-      <Image
-        src="/gasyard.svg"
-        width={235}
-        height={50}
-        alt="logo"
-        className="block mx-auto"
-      />
-
-      {/* <div className="flex space-x-4 ">
-        <Link
-          href="/"
-          className={`${
-            pathname == "/" ? "text-rabble" : "text-color  hover:text-color/90"
-          } `}
-        >
-          Home
-        </Link>
-        <Link
-          href="/contract"
-          className={`${
-            pathname == "/contract"
-              ? "text-rabble"
-              : "text-color hover:text-color/90"
-          } `}
-        >
-          Contract
-        </Link>
-      </div> */}
+    <nav className="mx-3 my-4">
+      <div className="flex items-end">
+        <h1 className="text-2xl text-rabble font-extrabold ">DevFaucet</h1>{" "}
+        <div className="ml-auto flex items-center ">
+          <ConnectButton accountStatus={"avatar"} chainStatus={"icon"} />
+        </div>
+      </div>
+      <hr className="bg-black mt-2" />
     </nav>
   );
 };
