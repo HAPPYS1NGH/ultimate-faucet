@@ -11,7 +11,7 @@ import { useTelegramUsername } from "@/hooks/useTelegramUsername";
 import { useAccount } from "wagmi";
 
 // Regex for EVM address validation
-const isValidEvmAddress = (address: string) =>
+const isValidEvmAddress: (address: string) => boolean = (address: string) =>
   /^0x[a-fA-F0-9]{40}$/.test(address);
 
 function FaucetPage() {
@@ -27,7 +27,7 @@ function FaucetPage() {
   const [isNetworkValid, setIsNetworkValid] = useState(true); // New state for network validation
   const [transactionHash, setTransactionHash] = useState<string | null>(null); // State for transaction hash
 
-  console.log(errorMessage + "error");
+  console.log("error mesaage" + errorMessage);
 
   // Ensure that the network exists in networkData and is a valid NetworkName
   useEffect(() => {
@@ -71,6 +71,7 @@ function FaucetPage() {
         setIsLoading(false);
       }
     }
+    check();
   }, [walletAddress, telegramUsername, network, isNetworkValid]);
 
   // Handle button click for dripping tokens
@@ -114,6 +115,8 @@ function FaucetPage() {
         ), // Adjust the amount as per your contract
         network as NetworkName
       );
+      console.log(dripResult);
+      console.log("dripResult");
 
       if (dripResult.success) {
         setFundsDripped(true);

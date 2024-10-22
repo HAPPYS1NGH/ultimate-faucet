@@ -64,6 +64,7 @@ export const dripTokensToAddress = async (
         const client: any = getChainClient(network, true);
         const usernameEncode = new TextEncoder().encode(username);
         const usernameBytes = `0x${usernameEncode.toString().replace(/,/g, "").replace(/ /g, "").replace(/0x/g, "")}`;
+        console.log("username, usernameEncode, usernameBytes", username, usernameEncode, usernameBytes);
 
         const { request, response } = await client.simulateContract({
             address: contract.address as `0x${string}`,

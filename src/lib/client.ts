@@ -7,12 +7,12 @@ import {
 } from "viem";
 import {
     baseSepolia,
-    kakarotSepolia,
+
     modeTestnet,
     arbitrumSepolia,
 } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { movementSepolia, morphHolesky } from "./chain";
+import { movementSepolia, morphHolesky, kakarotSepolia } from "./chain";
 
 const baseSepoliaRPC = process.env.BASE_SEPOLIA_RPC;
 const kakarotSepoliaRPC = process.env.KAKAROT_SEPOLIA_RPC; // RPC for Kakarot
