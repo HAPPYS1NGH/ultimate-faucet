@@ -72,3 +72,25 @@ export const kakarotSepolia = defineChain({
     },
     testnet: true,
 })
+
+export const monadDevnet = defineChain({
+    id: 41454,
+    name: 'Monad Devnet',
+    nativeCurrency: {
+        name: 'DMonad',
+        symbol: 'DMON',
+        decimals: 18,
+    },
+    rpcUrls: {
+        default: {
+            http: ['https://devnet1.monad.xyz/rpc/8XQAiNSsPCrIdVttyeFLC6StgvRNTdf'],
+        },
+    },
+    blockExplorers: {
+        default: {
+            name: 'Explorer',
+            url: 'https://brightstar-884.devnet1.monad.xyz',
+        },
+    },
+    testnet: true,
+})    

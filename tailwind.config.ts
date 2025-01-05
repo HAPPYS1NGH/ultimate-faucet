@@ -28,6 +28,7 @@ const config = {
         cream: "#F7F5E3",
         arbitrum: "#12AAff",
         mode: "#d6ff00",
+        monad: "#836EF9",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

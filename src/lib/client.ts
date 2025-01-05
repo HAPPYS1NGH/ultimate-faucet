@@ -7,12 +7,11 @@ import {
 } from "viem";
 import {
     baseSepolia,
-
     modeTestnet,
     arbitrumSepolia,
 } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { movementSepolia, morphHolesky, kakarotSepolia } from "./chain";
+import { movementSepolia, morphHolesky, kakarotSepolia, monadDevnet } from "./chain";
 
 const baseSepoliaRPC = process.env.BASE_SEPOLIA_RPC;
 const kakarotSepoliaRPC = process.env.KAKAROT_SEPOLIA_RPC; // RPC for Kakarot
@@ -20,6 +19,7 @@ const movementSepoliaRPC = process.env.MOVEMENT_SEPOLIA_RPC; // RPC for Movement
 const morphSepoliaRPC = process.env.MORPH_SEPOLIA_RPC; // RPC for Morph
 const arbitrumSepoliaRPC = process.env.ARBITRUM_SEPOLIA_RPC; // RPC for Arbitrum
 const modeSepoliaRPC = process.env.MODE_SEPOLIA_RPC; // RPC for Mode
+const monadDevnetRPC = process.env.MONAD_DEVNET_RPC; // RPC for Monad
 
 const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
 
@@ -108,6 +108,23 @@ export const walletModeClient = createWalletClient({
     transport: http(modeSepoliaRPC),
 }).extend(publicActions);
 
+// Monad Clients
+
+export const monadDevnetClient = createPublicClient({
+    chain: monadDevnet,
+    transport: fallback([
+        http(monadDevnetRPC, {
+            batch: true,
+        }),
+    ]),
+});
+
+export const walletMonadDevnetClient = createWalletClient({
+    account,
+    chain: monadDevnet,
+    transport: http(monadDevnetRPC),
+}).extend(publicActions);
+
 
 // Function to get the client based on the chain name
 export function getChainClient(chain: string, isWallet = false): any {
@@ -124,6 +141,8 @@ export function getChainClient(chain: string, isWallet = false): any {
             return isWallet ? walletArbitrumClient : arbitrumSepoliaClient;
         case "mode":
             return isWallet ? walletModeClient : modeSepoliaClient;
+        case "monad":
+            return isWallet ? walletMonadDevnetClient : monadDevnetClient;
         default:
             throw new Error(`Unsupported chain ${chain}`);
     }

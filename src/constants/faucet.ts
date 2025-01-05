@@ -1,8 +1,16 @@
-export type NetworkName = "morph" | "kakarot" | "base" | "movement" | "arbitrum" | "mode";
+export type NetworkName = "monad" | "morph" | "kakarot" | "base" | "movement" | "arbitrum" | "mode";
 
-export const networks: NetworkName[] = ["arbitrum", "base", "kakarot", "mode", "movement", "morph"];
+export const networks: NetworkName[] = ["monad", "arbitrum", "base", "kakarot", "mode", "movement", "morph"];
 
 export const networkData: Record<NetworkName, { name: string; color: string; description: string, dripAmount: string, token: string, explorer: string }> = {
+    monad: {
+        name: "Monad",
+        color: "bg-monad",
+        description: "Speed without sacrifice.",
+        dripAmount: "0.01",
+        token: "DMON",
+        explorer: "https://brightstar-884.devnet1.monad.xyz/"
+    },
     arbitrum: {
         name: "Arbitrum",
         color: "bg-arbitrum",

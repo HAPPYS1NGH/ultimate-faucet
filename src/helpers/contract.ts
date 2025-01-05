@@ -19,14 +19,12 @@ export const isTokenDrippedToAddressInLast24Hours = async (
 };
 
 export const isTokenDrippedToUsernameInLast24Hours = async (
-    username: string,
+    usernameBytes: string,
     network: NetworkName
 ) => {
     const contract = config[network];
     const client: any = getChainClient(network);
-
-    const usernameEncode = new TextEncoder().encode(username);
-    const usernameBytes = `0x${usernameEncode.toString().replace(/,/g, "").replace(/ /g, "").replace(/0x/g, "")}`;
+    console.log(usernameBytes, network, "IN LAST 24 HOURS Username");
 
     const hasReceivedWithin24Hours = await client.readContract({
         address: contract.address as `0x${string}`,
@@ -103,7 +101,7 @@ export const cannotDripTokens = async (
         if (hasAddressReceived) {
             return "Tokens have already been dripped to this address within the last 24 hours.";
         }
-
+        console.log(usernameBytes, net);
         const hasUsernameReceived = await isTokenDrippedToUsernameInLast24Hours(usernameBytes, net);
         console.log(hasUsernameReceived + "hasUsernameReceived");
 
@@ -111,13 +109,13 @@ export const cannotDripTokens = async (
             return "Tokens have already been dripped to this username within the last 24 hours.";
         }
         // }
-        // // Check if the address has a balance above the threshold
+        // Check if the address has a balance above the threshold
         // for (const net of networks) {
         const hasEnoughFunds = await isBalanceAboveThreshold(address, net);
         if (hasEnoughFunds) {
             return "The address balance is above the threshold.";
-            //     }
         }
+        //     }
         return false;
     } catch (error) {
         return "An unknown error occurred.";
