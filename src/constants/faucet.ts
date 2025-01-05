@@ -7,7 +7,7 @@ export const networkData: Record<NetworkName, { name: string; color: string; des
         name: "Monad",
         color: "bg-monad",
         description: "Speed without sacrifice.",
-        dripAmount: "0.01",
+        dripAmount: "1",
         token: "DMON",
         explorer: "https://brightstar-884.devnet1.monad.xyz/"
     },
