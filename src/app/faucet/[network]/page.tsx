@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { cannotDripTokens, dripTokensToAddress } from "@/helpers/contract";
 import { useTelegramUsername } from "@/hooks/useTelegramUsername";
 import { useAccount } from "wagmi";
+import { useUtils } from "@telegram-apps/sdk-react";
 
 // Regex for EVM address validation
 const isValidEvmAddress: (address: string) => boolean = (address: string) =>
@@ -16,6 +17,7 @@ const isValidEvmAddress: (address: string) => boolean = (address: string) =>
 
 function FaucetPage() {
   const { network } = useParams();
+  const utils = useUtils();
   const router = useRouter();
   const telegramUsername = useTelegramUsername();
   const { address } = useAccount();
@@ -201,13 +203,15 @@ function FaucetPage() {
         <Button
           className={`font-semibold w-full py-6 bg-white text-black hover:bg-gray-200 mt-3 border-black border-2`}
         >
-          <Link
-            href={`${networkInfo?.explorer}tx/${transactionHash}`}
+          <div
             className="flex justify-center align-middle gap-2 "
+            onClick={() => {
+              utils.openLink(`${networkInfo?.explorer}/tx/${transactionHash}`);
+            }}
           >
             View Transaction
             <Image src="/link.png" alt="link" width={20} height={20} />
-          </Link>
+          </div>
         </Button>
       )}
     </div>
