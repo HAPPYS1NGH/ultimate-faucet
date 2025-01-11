@@ -9,7 +9,7 @@ export const networkData: Record<NetworkName, { name: string; color: string; des
         description: "Speed without sacrifice.",
         dripAmount: "1",
         token: "DMON",
-        explorer: "https://brightstar-884.devnet1.monad.xyz/"
+        explorer: "https://explorer.monad-devnet.devnet101.com/"
     },
     arbitrum: {
         name: "Arbitrum",
