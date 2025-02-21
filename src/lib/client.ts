@@ -11,7 +11,7 @@ import {
     arbitrumSepolia,
 } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { movementSepolia, morphHolesky, kakarotSepolia, monadDevnet } from "./chain";
+import { movementSepolia, morphHolesky, kakarotSepolia, monadTestnet } from "./chain";
 
 const baseSepoliaRPC = process.env.BASE_SEPOLIA_RPC;
 const kakarotSepoliaRPC = process.env.KAKAROT_SEPOLIA_RPC; // RPC for Kakarot
@@ -19,7 +19,7 @@ const movementSepoliaRPC = process.env.MOVEMENT_SEPOLIA_RPC; // RPC for Movement
 const morphSepoliaRPC = process.env.MORPH_SEPOLIA_RPC; // RPC for Morph
 const arbitrumSepoliaRPC = process.env.ARBITRUM_SEPOLIA_RPC; // RPC for Arbitrum
 const modeSepoliaRPC = process.env.MODE_SEPOLIA_RPC; // RPC for Mode
-const monadDevnetRPC = process.env.MONAD_DEVNET_RPC; // RPC for Monad
+const monadTestnetRPC = process.env.MONAD_TESTNET_RPC; // RPC for Monad
 
 const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
 
@@ -110,19 +110,19 @@ export const walletModeClient = createWalletClient({
 
 // Monad Clients
 
-export const monadDevnetClient = createPublicClient({
-    chain: monadDevnet,
+export const monadTestnetClient = createPublicClient({
+    chain: monadTestnet,
     transport: fallback([
-        http(monadDevnetRPC, {
+        http(monadTestnetRPC, {
             batch: true,
         }),
     ]),
 });
 
-export const walletMonadDevnetClient = createWalletClient({
+export const walletMonadTestnetClient = createWalletClient({
     account,
-    chain: monadDevnet,
-    transport: http(monadDevnetRPC),
+    chain: monadTestnet,
+    transport: http(monadTestnetRPC),
 }).extend(publicActions);
 
 
@@ -142,7 +142,7 @@ export function getChainClient(chain: string, isWallet = false): any {
         case "mode":
             return isWallet ? walletModeClient : modeSepoliaClient;
         case "monad":
-            return isWallet ? walletMonadDevnetClient : monadDevnetClient;
+            return isWallet ? walletMonadTestnetClient : monadTestnetRPC;
         default:
             throw new Error(`Unsupported chain ${chain}`);
     }
