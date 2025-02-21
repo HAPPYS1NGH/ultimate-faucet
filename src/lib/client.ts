@@ -142,7 +142,7 @@ export function getChainClient(chain: string, isWallet = false): any {
         case "mode":
             return isWallet ? walletModeClient : modeSepoliaClient;
         case "monad":
-            return isWallet ? walletMonadTestnetClient : monadTestnetRPC;
+            return isWallet ? walletMonadTestnetClient : monadTestnetClient;
         default:
             throw new Error(`Unsupported chain ${chain}`);
     }
