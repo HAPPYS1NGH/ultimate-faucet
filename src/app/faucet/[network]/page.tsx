@@ -1,15 +1,21 @@
 "use client";
-import { useState, useEffect } from "react"; // Import useState and useEffect for state and effects management
+import { useState, useEffect, use } from "react"; // Import useState and useEffect for state and effects management
 import { useParams, useRouter } from "next/navigation";
 import { networkData, NetworkName } from "@/constants/faucet";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cannotDripTokens, dripTokensToAddress } from "@/helpers/contract";
+import {
+  cannotDripTokens,
+  dripTokensToAddress,
+  faucetBalance,
+  isFaucetEmpty,
+} from "@/helpers/contract";
 import { useTelegramUsername } from "@/hooks/useTelegramUsername";
 import { useAccount } from "wagmi";
 import { useUtils } from "@telegram-apps/sdk-react";
+import { formatEther } from "viem";
 
 // Regex for EVM address validation
 const isValidEvmAddress: (address: string) => boolean = (address: string) =>
@@ -25,6 +31,8 @@ function FaucetPage() {
   const [walletAddress, setWalletAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fundsDripped, setFundsDripped] = useState(false);
+  const [faucetEmpty, setfaucetEmpty] = useState(false);
+  const [faucetValue, setFaucetValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isNetworkValid, setIsNetworkValid] = useState(true); // New state for network validation
   const [transactionHash, setTransactionHash] = useState<string | null>(null); // State for transaction hash
@@ -45,6 +53,23 @@ function FaucetPage() {
       setWalletAddress(address);
     }
   }, [address]);
+
+  useEffect(() => {
+    async function check() {
+      if (isNetworkValid) {
+        const isEmptyresult = await isFaucetEmpty(network as NetworkName);
+        const balance = await faucetBalance(network as NetworkName);
+
+        setFaucetValue(
+          formatEther(balance).toString() +
+            " " +
+            networkData[network as NetworkName].token
+        );
+        setfaucetEmpty(isEmptyresult);
+      }
+    }
+    check();
+  }, [faucetEmpty, network, isNetworkValid]);
 
   const networkInfo = isNetworkValid
     ? networkData[network as NetworkName]
@@ -165,11 +190,16 @@ function FaucetPage() {
       <h1 className="text-2xl font-bold mb-4">
         Hey <span className="text-[#E33D26]">@{telegramUsername}</span>
       </h1>
-      <p className="text-xl mb-8">
+      <p className="text-xl mb-4">
         {fundsDripped
           ? "Your Funds are on the way!"
           : `Claim your ${networkInfo?.dripAmount} ${networkInfo?.token} on ${networkInfo?.name}:`}
       </p>
+      {faucetEmpty ? (
+        <p className="text-[#E33D26] mb-4">Faucet is empty.😭</p>
+      ) : (
+        <p className="text-green-500 mb-4">Faucet Balance: {faucetValue}</p>
+      )}
       <Input
         type="text"
         placeholder="Place your EVM address"

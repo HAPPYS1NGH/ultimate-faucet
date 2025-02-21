@@ -1,7 +1,8 @@
 "use server"
 import { config } from "../constants";
 import { getChainClient } from "@/lib/client";
-import { NetworkName, networks } from "@/constants/faucet";
+import { networkData, NetworkName, networks } from "@/constants/faucet";
+import { parseUnits } from 'viem'
 
 export const isTokenDrippedToAddressInLast24Hours = async (
     address: string,
@@ -50,6 +51,23 @@ export const isBalanceAboveThreshold = async (
     });
     return hasEnoughFunds;
 };
+
+export const faucetBalance = async (network: NetworkName) => {
+    const contract = config[network];
+    const client: any = getChainClient(network);
+    const balance = await client.getBalance({ address: contract.address as `0x${string}` });
+    return balance;
+}
+
+export const isFaucetEmpty = async (network: NetworkName) => {
+    const networkDetails = networkData[network];
+    let balance = await faucetBalance(network);
+    if (balance <= parseUnits(networkDetails.dripAmount, 18)) {
+        return true;
+    }
+    return false;
+}
+
 
 export const dripTokensToAddress = async (
     to: string,
@@ -115,6 +133,12 @@ export const cannotDripTokens = async (
         if (hasEnoughFunds) {
             return "The address balance is above the threshold.";
         }
+
+        const faucetEmpty = await isFaucetEmpty(net);
+        if (faucetEmpty) {
+            return "The faucet is empty.";
+        }
+
         //     }
         return false;
     } catch (error) {
